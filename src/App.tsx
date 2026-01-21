@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { publicClient, walletClient } from './viem'
 import { messageBoardContract } from './contracts/messageBoard'
 

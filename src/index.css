@@ -1,0 +1,36 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background: #0f172a; /* 深蓝黑 */
+  color: #e5e7eb;
+}
+
+body {
+  margin: 0;
+}
+
+button {
+  background: #6366f1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background: #4f46e5;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+input {
+  background: #020617;
+  border: 1px solid #334155;
+  color: white;
+  border-radius: 8px;
+  padding: 10px;
+}

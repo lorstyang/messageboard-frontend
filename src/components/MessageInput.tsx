@@ -1,23 +1,19 @@
 import { useState } from 'react'
-import { walletClient } from '@/viem'
+import { useWriteContract } from 'wagmi'
 import { messageBoardContract } from '@/contracts/messageBoard'
 
-interface MessageInputProps {
-    account: `0x${string}`;
-}
-
-export function MessageInput({ account }: MessageInputProps) {
+export function MessageInput() {
     const [content, setContent] = useState('')
     const [posting, setPosting] = useState(false)
+    const { writeContractAsync } = useWriteContract()
 
     async function send() {
         if (!content.trim()) return
         setPosting(true)
-        await walletClient.writeContract({
+        await writeContractAsync({
             ...messageBoardContract,
             functionName: 'post',
             args: [content],
-            account,
         })
         setContent('')
         setPosting(false)

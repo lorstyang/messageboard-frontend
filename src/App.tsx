@@ -1,6 +1,7 @@
 // src/App.tsx
 import { useState } from 'react'
-import { walletClient } from '@/viem'
+import { useAccount } from 'wagmi'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { usePublicMessages } from '@/hooks/usePublicMessages'
 import { useLiveMessages } from '@/hooks/useLiveMessages'
 import { MessageCard } from '@/components/MessageCard'
@@ -12,7 +13,7 @@ function shortAddr(addr: string) {
 }
 
 export default function App() {
-  const [account, setAccount] = useState<`0x${string}` | null>(null)
+  const { address, isConnected } = useAccount()
   const publicMessages = usePublicMessages()
   const [liveMessages, setLiveMessages] = useState<any[]>([])
 
@@ -20,11 +21,6 @@ export default function App() {
   useLiveMessages(msg =>
     setLiveMessages(prev => [...prev, msg])
   )
-
-  async function connect() {
-    const [addr] = await walletClient.requestAddresses()
-    setAccount(addr)
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800">
@@ -57,14 +53,13 @@ export default function App() {
           <p className="text-slate-400 text-lg mt-2">Decentralized on-chain messaging</p>
         </div>
 
-        {!account ? (
-          <div className="flex items-center justify-center min-h-96">
-            <button
-              onClick={connect}
-              className="group relative px-8 py-4 text-lg font-semibold text-white rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95"
-            >
-              🔌 Connect Wallet
-            </button>
+        <div className="mb-6 flex items-center justify-end">
+          <ConnectButton />
+        </div>
+
+        {!isConnected ? (
+          <div className="flex items-center justify-center min-h-96 text-slate-400">
+            Connect a wallet to read and post messages.
           </div>
         ) : (
           <>
@@ -74,7 +69,7 @@ export default function App() {
               </div>
               <div className="flex items-center justify-between">
                 <div className="text-2xl font-bold text-transparent bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text">
-                  {shortAddr(account)}
+                  {address ? shortAddr(address) : '—'}
                 </div>
                 <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
               </div>
@@ -103,7 +98,7 @@ export default function App() {
 
               <div className="space-y-4">
                 <h2 className="text-xl font-semibold text-white">Post Message</h2>
-                <MessageInput account={account} />
+                <MessageInput />
               </div>
             </div>
           </>

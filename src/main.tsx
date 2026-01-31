@@ -6,7 +6,7 @@ import { RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 import './index.css'
 import App from './App.tsx'
-import { chains, wagmiConfig } from './viem'
+import { wagmiConfig } from './viem'
 
 const queryClient = new QueryClient()
 
@@ -14,7 +14,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <WagmiProvider config={wagmiConfig}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider chains={chains}>
+        <RainbowKitProvider>
           <App />
         </RainbowKitProvider>
       </QueryClientProvider>
